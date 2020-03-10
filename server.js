@@ -10,7 +10,7 @@ require("./routes/htmlRoutes")(app);
 
 const serv = require('http').createServer(app);
 
-serv.listen(PORT, function() {
+serv.listen(PORT, () => {
   console.log("App listening on PORT: " + PORT);
 });
 
