@@ -7,59 +7,36 @@
         <link href="https://fonts.googleapis.com/css?family=ABeeZee&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" href="/public/styles/main.css">
+        <!-- <link rel="stylesheet" href="/public/styles/main.css"> -->
         <!-- <link rel="shortcut icon" href="/public/images/logo.png">  -->
         <title>lobby</title>
+        <style>
+            div {
+                background: rgba(215, 254, 255, 0.856);
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            canvas {
+                box-shadow: 15px 10px 15px 10px #888888;
+                margin: auto;
+                width: 90%;
+                border: 1px solid rgba(255, 255, 255, 0);
+                background: rgb(29, 29, 29);
+                margin-top: 10px;
+            }
+        </style>
     </head>
     <body>   
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <p id="header">You are in the main lobby</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col border">
-                    <div>
-                        <p>Data</p>
-                        <hr />
-                        <p id="username"></p>
-                        <p id="userId"></p>
-                        <p id="lobbyId"></p>
-                        <p id="usersInMain"></p>
-                        <p id="usersSearching"></p>
-                        <p id="usersInMatches"></p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="row border">
-                        <div class="col">
-                            <input type="text" id="usernameInput" style="display: block;" placeholder="username">                            
-                            <button id="playBtn" onclick="play();">
-                                Find Lobby
-                            </button>
-                            <div id="loader" style="display: none">
-                                <p>Searching...</p>
-                                <button id="stopSearch" onclick="stopSearch();">Stop Search</button>
-                                <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="..." style="width: 100%; height: 100%;"/>
-                            </div>
-                            <input type="text" id="msgBox" style="display: none;" placeholder="message">
-                            <button id="sendBtn" onclick="sendMsg();" style="display: none;">
-                                Send Message
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row border">
-                        <div class="col">
-                            <div id="messageData" style="display: none;">
-                                <p>Messages:</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <canvas id="canvas" width="1920" height="1000"></canvas>
         </div>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-        <script src="/public/scripts/main.js"></script>            
+        <!-- <script src="/public/scripts/main.js"></script>             -->
+        <script src="/public/scripts/main2.js"></script>            
     </body>
 </html>
