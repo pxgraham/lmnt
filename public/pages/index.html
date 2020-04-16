@@ -17,7 +17,8 @@
 
             </div>
             <div>
-                <canvas id="canvas" width="2000" height="1000"></canvas>
+                <canvas id="canvas" width="5000" height="4000"></canvas>
+                <canvas id="view"></canvas>
                 <br />
                 <div class="bottom-boundary">
                     
@@ -27,6 +28,15 @@
                 
             </div>
         </div>
+        <!-- <div style="position: fixed; left: 20%; bottom: 0px; z-index: 20;">
+        </div> -->
+        <div style="position: fixed; top: 0px; right: 0px; z-index: 25;">
+            <button onclick="join('red');">Red</button>
+            <button onclick="join('blue');">Blue</button>
+            <button onclick="join('green');">Green</button>
+        </div>
+        <!-- <div style="position: fixed; left: 50%; bottom: 0px; z-index: 20;">
+        </div> -->
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script src="/public/scripts/main.js"></script>                  
     </body>
