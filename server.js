@@ -33,11 +33,9 @@ function Player(x, y, w, h, id, viewX, viewY) {
   this.move = () => {
     if(this.left) {
       this.x -= this.speed;
-      this.viewX += this.speed;
     }
     if(this.right) {
       this.x += this.speed;
-      this.viewX -= this.speed;
     }
   }
 }
@@ -55,9 +53,11 @@ io.sockets.on('connection', (socket) => {
   socket.on('move', (data) => {
     if(players[socket.id]) {
       switch(data.input) {
-        case 'left': players[socket.id].left = data.state;
+        case 'left': 
+          players[socket.id].left = data.state;
         break;
-        case 'right': players[socket.id].right = data.state;
+        case 'right': 
+          players[socket.id].right = data.state;
         break
       }
     }

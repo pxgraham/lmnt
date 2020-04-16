@@ -13,23 +13,17 @@
     </head>
     <body>   
         <div class="canvas-container">
-            <div class="boundary">
-
-            </div>
             <div>
-                <canvas id="canvas" width="5000" height="4000"></canvas>
-                <canvas id="view"></canvas>
-                <br />
-                <div class="bottom-boundary">
-                    
-                </div> 
-            </div>
-            <div class="boundary">
-                
+                <canvas id="canvas" width="3000" height="2000"></canvas>
+                <canvas id="view" width="2000" height="500"></canvas>
             </div>
         </div>
         <!-- <div style="position: fixed; left: 20%; bottom: 0px; z-index: 20;">
         </div> -->
+        <div style="position: fixed; top: 0px; left: 0px; z-index: 25;">
+            <button onclick="switchView('player');">Player View</button>
+            <button onclick="switchView('map');">Entire Map</button>
+        </div>
         <div style="position: fixed; top: 0px; right: 0px; z-index: 25;">
             <button onclick="join('red');">Red</button>
             <button onclick="join('blue');">Blue</button>
