@@ -25,11 +25,9 @@ function Player(x, y, w, h, id, viewX, viewY) {
   this.w = w;
   this.h = h;
   this.id = id;
-  this.viewX = viewX;
-  this.viewY = viewY;
   this.left = false;
   this.right = false;
-  this.speed = 15;
+  this.speed = 20;
   this.move = () => {
     if(this.left) {
       this.x -= this.speed;
@@ -45,19 +43,22 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('join', (playerData) => {
     //need to set attributes
-    players[socket.id] = new Player(1000, 800, 50, 50, socket.id, -875, -750);
+    players[socket.id] = new Player(1500, 800, 50, 50, socket.id, -875, -750);
     let player = players[socket.id];
     player.c = playerData;
   })
 
   socket.on('move', (data) => {
     if(players[socket.id]) {
+      let player = players[socket.id];
       switch(data.input) {
         case 'left': 
-          players[socket.id].left = data.state;
+          // player.x -= player.speed;
+          player.left = data.state;
         break;
         case 'right': 
-          players[socket.id].right = data.state;
+          // player.x += player.speed;
+          player.right = data.state;
         break
       }
     }
@@ -77,6 +78,7 @@ setInterval(() => {
     pack.push(players[i])
   }
   for(let i in sessions) {
-    sessions[i].emit('update', pack);
+    let socket = sessions[i];
+    socket.emit('update', pack);
   }
 },1000/60)
