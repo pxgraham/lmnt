@@ -5,6 +5,7 @@ const view = document.getElementById('view');
 const vctx = view.getContext('2d');
 let viewX = 0;
 let viewY = 0;
+const clamp = (n, lo, hi) => n < lo ? lo : n > hi ? hi : n;
 let joined = false;
 
 const join = (color) => {
@@ -23,7 +24,6 @@ const switchView = (screen) => {
             break;
     }
 }
-let background = [];
 
 class Object {
     constructor(x, y, w, h) {
@@ -34,6 +34,7 @@ class Object {
     }
 }
 
+let background = [];
 for( let i = 0; i < 100; i++) {
     let x = Math.random() * canvas.width + 1;
     let y = Math.random() * canvas.height + 1;
@@ -41,38 +42,53 @@ for( let i = 0; i < 100; i++) {
     let h = 5;
     background.push(new Object(x, y, w, h));
 }
-const clamp = (n, lo, hi) => n < lo ? lo : n > hi ? hi : n;
+
 socket.on('update', (data) => {
     setMap();
+
+    //retreive yourself
     let player_index = data.map((x) => {return x.id; }).indexOf(socket.id);
     if(data[player_index] !== undefined) {
         viewX = -data[player_index].x + canvas.width/2 - 500;
         viewX = clamp(viewX, view.width - canvas.width, 0);
+        viewY = -data[player_index].y + canvas.height/2 - 500;
+        viewY = clamp(viewY, view.height - canvas.height, 0);
     }
+
+    //paints all players on map
     for(let i = 0; i < data.length; i++) {
         let player = data[i];       
         ctx.fillStyle = player.c;
         ctx.fillRect(player.x, player.y, player.w, player.h);
     }
+
+    //sets your viewport center on your player
     setView();
 })
 
+//paints entire map
 setMap = () => {
+    //clear frame
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    //y axis
     ctx.fillStyle = 'lime';
-    ctx.fillRect(0, 850, canvas.width, 5);
-    ctx.fillStyle = 'red';
-    ctx.fillRect(0, 50, canvas.width, 5); 
+    ctx.fillRect(canvas.width/2, 0, 5, canvas.height);
+
+    //x axis
+    ctx.fillStyle = 'lime';
+    ctx.fillRect(0, canvas.height/2, canvas.width, 5); 
+
+    //background specs
     background.forEach((object) => {
         ctx.fillStyle = 'white';
         ctx.fillRect(object.x, object.y, object.w, object.h);
     })
 }
 
+//paints viewport
 setView = () => {
-    // if(left) {viewX+=20}
-    // if(right) {viewX-=20}
     vctx.drawImage(canvas, viewX, viewY);
 }
 
@@ -80,21 +96,15 @@ document.addEventListener('keyup', (e) => {
     // console.log(e.keyCode);
     switch(e.keyCode) {
         case 38:
-            // socket.emit('')
+            socket.emit('move', {input: 'up', state: false});
             break;
         case 40:
-            // dir.down = true;
+            socket.emit('move', {input: 'down', state: false});
             break;
         case 37:
-            if(joined) {
-                left = false;
-            }
             socket.emit('move', {input: 'left', state: false});
             break;
         case 39:
-            if(joined) {
-                right = false;
-            }
             socket.emit('move', {input: 'right', state: false});
             break;
         default: //do nothing
@@ -105,17 +115,15 @@ document.addEventListener('keydown', (e) => {
     // console.log(e.keyCode);
     switch(e.keyCode) {
         case 38:
-            // dir.up = true;
+            socket.emit('move', {input: 'up', state: true});
             break;
         case 40:
-            // dir.down = true;
+            socket.emit('move', {input: 'down', state: true});
             break;
         case 37:
-            socket.emit('viewMove', {input: 'left', state: true});
             socket.emit('move', {input: 'left', state: true});
             break;
         case 39:
-            socket.emit('viewMove', {input: 'right', state: true});
             socket.emit('move', {input: 'right', state: true});
             break;
         default: //do nothing

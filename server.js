@@ -19,7 +19,7 @@ const io = require('socket.io')(serv, {});
 let sessions = [];
 let players = [];
 
-function Player(x, y, w, h, id, viewX, viewY) {
+function Player(x, y, w, h, id) {
   this.x = x;
   this.y = y;
   this.w = w;
@@ -27,6 +27,8 @@ function Player(x, y, w, h, id, viewX, viewY) {
   this.id = id;
   this.left = false;
   this.right = false;
+  this.up = false;
+  this.down = false;
   this.speed = 20;
   this.move = () => {
     if(this.left) {
@@ -34,6 +36,12 @@ function Player(x, y, w, h, id, viewX, viewY) {
     }
     if(this.right) {
       this.x += this.speed;
+    }
+    if(this.up) {
+      this.y -= this.speed;
+    }
+    if(this.down) {
+      this.y += this.speed;
     }
   }
 }
@@ -43,7 +51,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('join', (playerData) => {
     //need to set attributes
-    players[socket.id] = new Player(1500, 800, 50, 50, socket.id, -875, -750);
+    players[socket.id] = new Player(1500, 800, 50, 50, socket.id);
     let player = players[socket.id];
     player.c = playerData;
   })
@@ -53,12 +61,16 @@ io.sockets.on('connection', (socket) => {
       let player = players[socket.id];
       switch(data.input) {
         case 'left': 
-          // player.x -= player.speed;
           player.left = data.state;
         break;
         case 'right': 
-          // player.x += player.speed;
           player.right = data.state;
+        break
+        case 'up': 
+          player.up = data.state;
+        break
+        case 'down': 
+          player.down = data.state;
         break
       }
     }
