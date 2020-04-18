@@ -36,7 +36,7 @@ function Player(x, y, w, h, id) {
   this.right = false;
   this.up = false;
   this.down = false;
-  this.speed = 10;
+  this.speed = 5;
   this.move = () => {    
     switch(this.facing) {
       case 'left':

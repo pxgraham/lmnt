@@ -6,12 +6,13 @@ const vctx = view.getContext('2d');
 const pic = new Image();
 pic.src  = '/public/images/pic.png';
 const playerImg = new Image();
-playerImg.src  = '/public/images/player.png';
+playerImg.src  = '/public/images/player3.png';
 let viewX = 0;
 let viewY = 0;
 const clamp = (n, lo, hi) => n < lo ? lo : n > hi ? hi : n;
 let joined = false;
 const join = (color) => {
+    playerImg.src = color;
     socket.emit('join', color);
     joined = true;
 }
@@ -39,7 +40,7 @@ class Object {
     }
 }
 let background = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 250; i++) {
     x = Math.random() * canvas.width + 1;
     y = Math.random() * canvas.height + 1;
     background.push(new Object(x, y, 5, 5))

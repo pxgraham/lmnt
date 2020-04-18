@@ -6,6 +6,7 @@ body {
 
 #view {
     /* display: none; */
+    /* transform: scale(2, 2); */
     position: absolute;
     left: 0px;
     box-shadow: 0px 0px 15px 15px #8888882a;
@@ -14,7 +15,7 @@ body {
     height: 100%;
     border: 0px solid #209c00;
     /* border: 1px solid rgba(255, 255, 255, 0); */
-    background: rgb(29, 29, 29);
+    background: rgba(29, 29, 29, 0);
     /* margin-top: 10px; */
 }
 
