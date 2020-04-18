@@ -24,24 +24,66 @@ function Player(x, y, w, h, id) {
   this.y = y;
   this.w = w;
   this.h = h;
+  this.facing = 'front';
+  this.moving = false;
+  this.sx = 0;
+  this.sy = 0;
+  this.sw = 90;
+  this.sh = 130;
+  this.animationRate = 0;
   this.id = id;
   this.left = false;
   this.right = false;
   this.up = false;
   this.down = false;
-  this.speed = 20;
-  this.move = () => {
+  this.speed = 10;
+  this.move = () => {    
+    switch(this.facing) {
+      case 'left':
+        this.sy = 360;
+       break;
+      case 'right':
+        this.sy = 120;
+      break;
+      case 'up':
+        this.sy = 0;
+      break;
+      case 'down':
+        this.sy = 240;
+      break;
+    }
     if(this.left) {
       this.x -= this.speed;
+      this.facing = 'left';
     }
     if(this.right) {
       this.x += this.speed;
+      this.facing = 'right';
     }
     if(this.up) {
       this.y -= this.speed;
+      this.facing = 'up';
     }
     if(this.down) {
       this.y += this.speed;
+      this.facing = 'down';
+    }
+    if(this.down || this.up || this.left || this.right) {
+      this.moving = true;
+    } else {
+      this.moving = false;
+    }
+    if(this.moving) {
+      this.animationRate++;
+      if(this.animationRate < 7) {
+        // do nothing
+      } else {
+        this.sx += this.sw;
+        this.animationRate = 0;
+      }
+      if (this.sx >= 90 * 3) {
+        this.sx = 0;
+      }
     }
   }
 }
@@ -51,7 +93,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('join', (playerData) => {
     //need to set attributes
-    players[socket.id] = new Player(1500, 800, 50, 50, socket.id);
+    players[socket.id] = new Player(1500, 800, 25, 25, socket.id);
     let player = players[socket.id];
     player.c = playerData;
   })
@@ -60,16 +102,16 @@ io.sockets.on('connection', (socket) => {
     if(players[socket.id]) {
       let player = players[socket.id];
       switch(data.input) {
-        case 'left': 
+        case 'left':
           player.left = data.state;
         break;
         case 'right': 
           player.right = data.state;
         break
-        case 'up': 
+        case 'up':  
           player.up = data.state;
         break
-        case 'down': 
+        case 'down':  
           player.down = data.state;
         break
       }
