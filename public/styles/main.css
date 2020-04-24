@@ -1,5 +1,5 @@
 body {
-    background: black;
+    background: #209c00;
     font-family: 'ABeeZee', sans-serif;
     overflow: hidden;
 }
@@ -18,7 +18,34 @@ body {
     background: rgba(29, 29, 29, 0);
     /* margin-top: 10px; */
 }
-
+#game {
+    display: none;
+}
+#chat-container {
+    display: flex;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    border-top: 1px solid rgba(0, 255, 42, 0.63);;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(0, 255, 42, 0.63);
+    opacity: 1; /* Firefox */
+  }
+#chat-container > input  {
+    width: 2000px;
+    background: rgba(0, 255, 42, 0.233);
+    border-width: 0px;
+}
+#chat-container > button {
+    display: none;
+    width: 100%;
+    background: rgba(0, 255, 42, 0.233);
+    border-width: 0px;
+}
 .text-silt {
     font-family: Shadows Into Light Two, cursive;
 }

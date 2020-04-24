@@ -11,21 +11,35 @@
         <link rel="shortcut icon" href="/public/images/pic.png"> 
         <title>LMNT</title>
     </head>
-    <body>   
-        <div class="canvas-container">
-            <div>
-                <canvas id="canvas" width="4000" height="2000"></canvas>
-                <canvas id="view" width="1500" height="675"></canvas>
+    <body onload="/*start();*/">   
+        <div id="mainMenu" class="container text-center">
+            <div class="spread" style="margin-top: 25%;">
+                <h1 class="text-light">lmnt</h1>
             </div>
+            <button id="startBtn" class="btn btn-primary">Play Now</button>
         </div>
-        <div style="position: fixed; top: 0px; left: 0px; z-index: 25;">
-            <button onclick="switchView('player');">Player View</button>
-            <button onclick="switchView('map');">Entire Map</button>
-        </div>
-        <div style="position: fixed; top: 0px; right: 0px; z-index: 25;">
-            <button onclick="join('/public/images/player.png');">Human</button>
-            <button onclick="join('/public/images/player2.png');">Dragon</button>
-            <button onclick="join('/public/images/player3.png');">Slayer</button>
+        <div id="game">
+            <div class="canvas-container">
+                <div>
+                    <canvas id="canvas" width="4000" height="2000"></canvas>
+                    <canvas id="view" width="1500" height="675"></canvas>
+                </div>
+            </div>
+            <div style="position: fixed; top: 0px; left: 0px; z-index: 25;">
+                <!-- <button onclick="switchView('player');">Player View</button>
+                <button onclick="switchView('map');">Entire Map</button> -->
+            </div>
+            <div style="position: fixed; top: 0px; right: 0px; z-index: 25;">
+                <!-- <button onclick="join('/public/images/player.png');">Human</button>
+                <button onclick="join('/public/images/player2.png');">Dragon</button> -->
+                <!-- <button onclick="join('/public/images/player3.png');">Slayer</button> -->
+                <!-- <button class="btn btn-danger text-light" onclick="location=location">Leave</button> -->
+            </div>
+            <input id="trick" style="position: fixed; left: -1000px; top: -1000px;"/>
+            <div id="chat-container">
+                <input id="chatbox" placeholder="... press Enter to start typing and send messages"/>
+                <button id="sendChat" style="overflow: hidden;">Send</button>
+            </div>
         </div>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script src="/public/scripts/main.js"></script>                  

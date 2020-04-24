@@ -18,7 +18,25 @@ const io = require('socket.io')(serv, {});
 
 let sessions = [];
 let players = [];
-
+let fire = [];
+for(var i = 0; i < 20; i++) {
+  fire.push(
+    {
+      x: Math.random() * 4000 + 1,
+      y: Math.random() * 2000 + 1,
+      w: 20,
+      h: 20,
+      c: 'red',
+    }
+  )
+}
+const collision = (player, target) => {
+  if(target.x + target.w >= player.x && target.y + target.h >= player.y && target.y <= player.y + player.h && target.x < player.x + player.w) {
+    return true;
+  } else {
+    return false;
+  }
+}
 function Player(x, y, w, h, id) {
   this.x = x;
   this.y = y;
@@ -37,7 +55,15 @@ function Player(x, y, w, h, id) {
   this.up = false;
   this.down = false;
   this.speed = 5;
-  this.move = () => {    
+  this.message = '';
+  this.move = () => {   
+    fire.forEach((lmnt) => {
+      if(lmnt.x + lmnt.w >= this.x && lmnt.y + lmnt.h >= this.y && lmnt.y <= this.y + this.h && lmnt.x < this.x + this.w) {
+        // console.log('hit fire')
+      } else {
+        // console.log(this.x, lmnt.x)
+      }
+    }) 
     switch(this.facing) {
       case 'left':
         this.sy = 360;
@@ -95,7 +121,8 @@ io.sockets.on('connection', (socket) => {
     //need to set attributes
     players[socket.id] = new Player(1500, 800, 25, 25, socket.id);
     let player = players[socket.id];
-    player.c = playerData;
+    // player.c = playerData;
+    socket.emit('mapData', fire);
   })
 
   socket.on('move', (data) => {
@@ -117,7 +144,18 @@ io.sockets.on('connection', (socket) => {
       }
     }
   })
-
+  
+  socket.on('message', (data) => {
+    players[socket.id].message = data;
+    let timerId = false;
+    if(!timerId) {
+      timerId = setTimeout(() => {
+        players[socket.id].message = '';
+      }, 2500)
+    } else {
+      clearTimeout(timerId);
+    }
+  })
   socket.on('disconnect', () => {
     delete sessions[socket.id];
     delete players[socket.id];
