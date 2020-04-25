@@ -1,2 +1,2 @@
  
-[Play Now](elementor.herokuapp.com)
+[Play Now](http://elementor.herokuapp.com)
