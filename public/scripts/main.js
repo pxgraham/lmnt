@@ -80,10 +80,9 @@ socket.on('mapData', (data) => {
 socket.on('update', (data) => {
     clear();
     setMapBackground();
-    
     //paint players and extracts your id for your fixed viewport
     let player_index = data.map((x) => {
-        let player = x;       
+        let player = x;     
         ctx.fillStyle = player.c;
         ctx.drawImage(
             playerImg, player.sx, player.sy, player.sw, player.sh,
@@ -178,7 +177,7 @@ document.addEventListener('keyup', (e) => {
 })
 let chatFocus = false;
 document.addEventListener('keydown', (e) => {
-    console.log(e.keyCode);
+    // console.log(e.keyCode);
     switch(e.keyCode) {
         //enter
         case 13: {
