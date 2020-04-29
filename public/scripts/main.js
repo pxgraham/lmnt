@@ -71,6 +71,10 @@ for (let i = 0; i < 250; i++) {
     background.push(new Object(x, y, 5, 5))
 }
 
+socket.on('death', () => {
+    location = location;
+})
+
 //stores the map data
 socket.on('mapData', (data) => {
     mapData = data;
@@ -90,7 +94,21 @@ socket.on('update', (data) => {
         );
         ctx.font = '19px ABeeZee';
         ctx.fillStyle = 'white';
-        ctx.fillText(player.message, player.x - player.message.length*2.5 + 5, player.y - 15)
+        ctx.fillText(player.message, player.x - player.message.length*2.5 + 5, player.y - 35)
+
+        for(let i = 0; i < player.hp; i++) {
+            ctx.fillStyle = 'red';
+            if(player.hp === 1) {
+                ctx.fillRect(player.x + 7.5, player.y - 20, 10, 10);
+            } else if(player.hp === 2) {
+                ctx.fillRect(player.x + 2.5, player.y - 20, 10, 10);
+                ctx.fillRect(player.x + 15.5, player.y - 20, 10, 10);
+            } else if(player.hp === 3) {
+                ctx.fillRect(player.x + -5, player.y - 20, 10, 10);
+                ctx.fillRect(player.x + 12 + -5, player.y - 20, 10, 10);
+                ctx.fillRect(player.x + 24 + -5, player.y - 20, 10, 10);
+            }
+        }
         
         player.clip.forEach((bullet) => {
             ctx.fillStyle = bullet.c;

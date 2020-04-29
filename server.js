@@ -55,6 +55,8 @@ class Player {
     this.speed = 8.5;
     this.facing = 'front';
     this.moving = false;
+    this.hp = 3;
+    this.alive = true;
   
     //moves player based on input direction
     this.move = () => {
@@ -93,6 +95,7 @@ class Player {
       }
     }
 
+    //sets everyone else as your targets
     this.target = {};
     this.setTargets = () => {
       for(let i in players) {
@@ -102,7 +105,9 @@ class Player {
             y: players[i].y,
             w: players[i].w,
             h: players[i].h,
-            id: players[i].id
+            id: players[i].id,
+            hp: players[i].hp,
+            alive: players[i].alive,
           }
         }
       }
@@ -110,26 +115,34 @@ class Player {
   
     //test if anything in the 'this.targets' array is hitting a bullet
     this.testBulletCollision = (target, bullet, i) => {
-      if(target.x + target.w >= bullet.x && target.y + target.h >= bullet.y && target.y <= bullet.y + bullet.h && target.x < bullet.x + bullet.w) {
-        bullet.id = this.id;
-        for (let j = this.clip.length - 1; i >= 0; --i) {                
-          if (bullet.id === this.id) {
-              this.clip.splice(i,1);
-              switch(bullet.moving) {
-                case 'left':
-                  players[target.id].x -= this.power * 10 / 2;
-                  break;
-                case 'right':
-                  players[target.id].x += this.power * 10 / 2;
-                  break;
-                case 'up':
-                  players[target.id].y -= this.power * 10 / 2;
-                  break;
-                case 'down':
-                  players[target.id].y += this.power * 10 / 2;
-                  break;
-              }
-              return;
+      if(players[target.id]) {
+        if(target.x + target.w >= bullet.x && target.y + target.h >= bullet.y && target.y <= bullet.y + bullet.h && target.x < bullet.x + bullet.w) {
+          bullet.id = this.id;
+          for (let j = this.clip.length - 1; i >= 0; --i) {                
+            if (bullet.id === this.id) {
+                this.clip.splice(i,1);
+                  if(players[target.id].hp === 1) {
+                    players[target.id].alive = false;
+                    sessions[target.id].emit('death');
+                  } else {
+                    players[target.id].hp -= 1;
+                  }
+                switch(bullet.moving) {
+                  case 'left':                  
+                    players[target.id].x -= this.power * 10 / 2;
+                    break;
+                  case 'right':
+                    players[target.id].x += this.power * 10 / 2;
+                    break;
+                  case 'up':
+                    players[target.id].y -= this.power * 10 / 2;
+                    break;
+                  case 'down':
+                    players[target.id].y += this.power * 10 / 2;
+                    break;
+                }
+                return;
+            }
           }
         }
       }
@@ -298,6 +311,8 @@ class Player {
         sh: this.sh,
         clip: this.clip,
         message: this.message,
+        hp: this.hp,
+        alive: this.alive,
       }
     }
 
@@ -314,6 +329,8 @@ class Player {
       sh: this.sh,
       clip: this.clip,
       message: this.message,
+      hp: this.hp,
+      alive: this.alive,
     }
   }
 }
