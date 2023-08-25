@@ -1,2 +1,2 @@
  
-[Play Now](http://elementor.herokuapp.com)
+Currently only runs locally
